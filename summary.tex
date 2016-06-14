@@ -1,0 +1,198 @@
+\documentclass[a4paper]{report}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{DMPP: main concepts}
+
+\author{Bruno Rocha Pereira}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+\chapter{Introduction}
+\begin{itemize}
+  \item \textbf{Deutsch fallacies (you don’t need to know the list by heart but to understand what
+  each fallacy implies)}.
+  
+  
+  
+  In a perfect world:
+  \begin{enumerate}
+	\item The network is reliable!
+    \item The network is secure!
+    \item The network is homogeneous!
+    
+	$\rightarrow $ All devices have the same configuration, ports and OS
+    \item The topology does not change!
+    \item Latency is zero!
+    \item Bandwidth is infinite!
+    \item Transport cost is zero!
+    \item There is one administrator
+\end{enumerate}
+  \item \textbf{Distribution vs concurrency, distribution vs. mobility}.
+  \item \textbf{Distribution transparency and its fundamental issues (again, you don’t need to know
+  the list of problems by heart but to understand what each issue implies and why
+  distribution transparency is said to be a myth).}
+  \item \textbf{Language vs. middleware vs. reflective approach.}
+  \item \textbf{Essential complexity vs. accidental complexity.}
+\end{itemize}
+\chapter{Prototype-based Programming}
+\begin{itemize}
+\item Why are prototypes relevant for distributed programming?
+\item  Symbiosis: understand the concept, how symbiosis works between AmbientTalk and
+Java.
+\item Object creation exnihilo vs. cloning, cloning and instantiation, delegation and cloning.
+\item Scoping: lexical vs object scope,methods vs. closures.
+\item Forwarding vs. delegation.
+\item The uniform access principle (UAP), UAP and closures, firstclass methods.
+\item Classifying objects with type tags.
+\item The concept of traits, objects as traits.
+\end{itemize}
+\chapter{Event-loop Programming}
+\begin{itemize}
+\item Threads: understand the model, how to achieve inter and intraobject synchronization,
+understand why and how deadlocks happen.
+\item Actors: the basic principles of the model, and difference with the thread model.
+\item Active Objects: understand the model, and its limitations for distribution.
+\item Event Loops: understand the model, the concept of far references, and the three
+concurrency control properties that the model can enforce.
+\item Actors in AmbientTalk, asynchronous message sending and parameter passing rules.
+\item Asynchronous message sending and return values:
+\item The concept of customer objects, and its limitations.
+\item Futures: the concept, blocking vs. nonblocking futures, future pipelining, how to
+achieve conditional synchronization with futures.
+\end{itemize}
+\chapter{Event-based Distributed Programming}
+\begin{itemize}
+\item Understand the different design issues to provide a distributed object model, and its
+relation to the different types of networks.
+\item Know the discriminating properties of mobile networks, and understand the
+requirements for a distributed object model for MANETs.
+\item Far references and partial failures: how far references deal with intermittent failures.
+\item Ways of obtaining a first far reference, service discovery vs. service lookup.
+\item Distributed object scoping and isolates.
+\item Far references and permanent failures, leased object references.
+\item Understand the difference between pessimistic and optimistic distributed object model.
+\end{itemize}
+
+
+\chapter{Meta-level Engineering}
+\begin{itemize}
+\item Metaprogramming: firstclass messages, quasiquoting and splicing, firstclass abstract
+grammar
+\item Reflective programming: base vs meta level, meta vs. reflective program.
+\item Terminology on reflection (reification, introspection, intercession), structural vs.
+behavioural reflection.
+\item The concept of meta objects, and understand the problems with popular meta-level
+architectures
+\item Mirror-based reflection: understand the model and the three properties that the model
+can enforce.
+\item Mirrors in AmbientTalk: explicit vs. implicit mirrors on objects.
+\item Mirages: the concept.
+\item Mirrors on Actors: understand which operations actor mirrors reify in comparison to
+object mirrors.
+\item MOP: You are not expected to know by hearth the message invocation protocol but
+the overall idea and understand the relevant parts that need to be altered in order to
+implement language constructs like futures and leased references.
+\end{itemize}
+\chapter{Coordination using Tuple Spaces}
+\begin{itemize}
+\item Terminology: coordination, datadriven vs. control driven coordination.
+\item Tuple Spaces: the basic interaction mechanism, understand the Linda model and how tuple matching works.
+\item Know what decoupling in time and space, and synchronization decoupling is, and being able to reason about the forms of decoupling that tuple spaces and other communication paradigms seen at the course exhibit.
+\item Federation of mobile tuple spaces: understand the basic interaction model of tuple spaces in a mobile setting, and being able to explain the two variations (LIME \& TOTA), know what are the differences and similarities of the two variations.
+\item TOTAM: understand the goal for this hybrid approach, and key features, and how the model supports memory management in face of failures.
+\end{itemize}
+\chapter{Peer-to-peer systems}
+\begin{itemize}
+\item Typical characteristics from P2P systems.
+\item The concept of an overlay network.
+\item First generation of P2P systems: motivation and limitations.
+\item Second generation of P2P systems: understand the basics, flooding, TTL propagation
+\item Understand the motivation for P2P third generation and which guarantees they
+provide w.r.t. previous generations, distributed hash tables
+\item Chord: understand how keys are distributed, the lookup algorithm and the different
+cost models of lookup, how join and leave of nodes affect the network, and the role of
+periodic stabilization
+\item CAP theorem: understand consistency, availability, partition tolerance means and their
+tradeoff. Be able to reason which guarantee Chord and other distributed algorithms or
+applications cannot provide.
+\item Distributed storage: know why P2P systems scale well specially for immutable objects,
+being able to reason about different replication strategies.
+\item Beernet: the goal of the approach and basic architecture. Understand the differences
+with Chord with respect to management of peer failures, and why it is relevant in a
+mobile setting.
+\end{itemize}
+\chapter*{Fundamentals}
+\begin{itemize}
+\item Understand why external synchronization with physical clocks is not employed for
+coordinating distributed processes.
+\item Lamport’s clocks: the algorithm, know which properties Lamport’s clocks exhibit,
+understand what it means that Lamport clocks are not strongly consistent.
+\item Partial vs. total ordering of events.
+\item Vector clocks: Understand the difference with Lamport’s clocks, which properties they
+exhibit, and how you can compare vector clocks. Understand the limitations and
+assumptions of vector clocks.
+\item Be able to reason about application domains where lamport and vector clocks can be
+applied.
+\item Consensus: two Generals’ problem, know what the consensus problem is.
+\item Know what it means the safety and liveness properties, and being able to reason
+about those properties for distributed algorithms.
+\item Know the FLP Theorem and understand its implications.
+\item Paxos:
+\begin{itemize}
+
+\item understand the goal, the roles of nodes and the purpose of each phase.
+\item Be able to explain why the algorithm cannot reach agreement sometimes, and how
+the safety properties are guaranteed.
+\item Be able to reason about application domains where paxos is useful.
+\end{itemize}
+\end{itemize}
+\chapter{Distributed Programming on the Web}
+\begin{itemize}
+\item Know the basic interaction model with a client-server architecture communicating by
+means of HTTP request.
+\item Understand why programming on the web 1.0 is said to be programming with strings.
+\item Know what a RIA is, and the role of JavaScript in the development of RIAs.
+\item AJAX: understand the idea that scripts can asynchronously communicate with the
+server, and why the interactions run asynchronously.
+\item Thread-based vs. event-based servers.
+\item Know the two ways how to achieve communication amongst clients (Publish/
+Subscribe on top of HTTP and websockets) and reason about their advantages and
+disadvantages.
+\item Mobile cross-platform solutions:
+\begin{itemize}
+\item The idea of employing web-based technologies (i.e. JavaScript) for mobile
+computing, and which advantages brings to mobile software development.
+\item Understand the basics of two big family of cross-platform solutions ( hybrid vs.
+interpreted) and be able to reason about their advantages and disadvantages.
+\end{itemize}
+\end{itemize}
+\chapter{Reactive Programming}
+\begin{itemize}
+\item Understand the differences between classic sequential and event-driven software.
+\item Know the advantages of event-driven client and servers for RIAs.
+\item Know what the issue of “Inversion of Control” (a.ka. the callback hell effect) is, and its
+implications (w.r.t shared state)
+\item Reactive programming: the basic model of evaluation, and key abstractions (event
+sources vs. behaviours), lifting, glitches and the most common dataflow evaluation
+strategy to reevaluate code without causing glitches.
+\item Flapjax:
+\begin{itemize}
+\item understand how pages can be made reactive
+\item you do not need to know all the operations on event stream combinators, but you
+should be able to reason about a piece of code with respect to which parts are
+reactive, the dependency graph, and how reactive code communicates with the
+DOM and server).
+\item Understand what it means that there are no callbacks in Flapjax in contrast to
+JavaScript.
+\end{itemize}
+\end{itemize}
+
+
+\end{document}

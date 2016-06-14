@@ -14,6 +14,9 @@
 
 \begin{document}
 \maketitle
+
+
+%--------------CHAPTER 1 : INTRO
 \chapter{Introduction}
 \begin{itemize}
   \item \textbf{Deutsch fallacies (you don’t need to know the list by heart but to understand what
@@ -41,37 +44,72 @@
   the list of problems by heart but to understand what each issue implies and why
   distribution transparency is said to be a myth).}
   \begin{itemize}
-  \item Latency: There can be a delay between sending a message and the moment when the other device gets it.
-  \item Difference in Memory Access : Every method invocation implies sending information over the networ to retrieve the reference.
-  \item Partial Failure: An element of the sytem can fail
-  \item Concurrency: automatic parallelisation cannot be made automatic because of partial failure and latency
+    \item Latency: There can be a delay between sending a message and the moment when the other device gets it.
+    \item Difference in Memory Access : Every method invocation implies sending information over the networ to retrieve the reference.
+    \item Partial Failure: An element of the sytem can fail
+    \item Concurrency: automatic parallelisation cannot be made automatic because of partial failure and latency
   \end{itemize}
   \item \textbf{Language vs. middleware vs. reflective approach.}
   \begin{itemize}
-  \item Language : concepts create a language, hiding the details
-  \item Middleware : library, makes use of another language's functionalities.
-  \item Reflective Approach : use of Aspects or reflection to combine both
+    \item Language : concepts create a language, hiding the details
+    \item Middleware : library, makes use of another language's functionalities.
+    \item Reflective Approach : use of Aspects or reflection to combine both
   \end{itemize}
 
   \item \textbf{Essential complexity vs. accidental complexity.}
   \begin{itemize}
-  \item Essential complexity: complexity bound to the problem. Cannot be avoided
-  \item Accidental complexity: bound to the development of the solution. Can be avoided by the dev.
+    \item Essential complexity: complexity bound to the problem. Cannot be avoided
+    \item Accidental complexity: bound to the development of the solution. Can be avoided by the dev.
   \end{itemize}
 \end{itemize}
 
+%--------------CHAPTER 2
+
 \chapter{Prototype-based Programming}
 \begin{itemize}
-  \item Why are prototypes relevant for distributed programming?
-  \item  Symbiosis: understand the concept, how symbiosis works between AmbientTalk and
-  Java.
-  \item Object creation exnihilo vs. cloning, cloning and instantiation, delegation and cloning.
-  \item Scoping: lexical vs object scope,methods vs. closures.
-  \item Forwarding vs. delegation.
-  \item The uniform access principle (UAP), UAP and closures, firstclass methods.
-  \item Classifying objects with type tags.
-  \item The concept of traits, objects as traits.
+  \item \textbf{Why are prototypes relevant for distributed programming?}
+
+  Classes weren't really suitable because they need to be sent everytime over the network (which can fail). Prototypes (with objects and no classes) make sharing explicit.
+  \item \textbf{Symbiosis: understand the concept, how symbiosis works between AmbientTalk and Java.}
+
+  All java code can be accessed from AT but layers are different (Java is class-based while AT is prototype-based) so a wrapping is necessary.
+  Although AT doesn't have overloading, Java has it and it can be used. Casting must be used to avoid ambiguity.
+  \item \textbf{Object creation exnihilo vs. cloning, cloning and instantiation, delegation and cloning.}
+
+  \begin{itemize}
+    \item Ex nihilo : done with \texttt{object:{}}
+    \item Cloning: makes a shallow copy with \texttt{clone:} or by creating a constructor method with \texttt{init} and use \texttt{Object.new()}.
+  \end{itemize}
+  \item \textbf{Scoping: lexical vs object scope,methods vs. closures.}
+  \begin{itemize}
+    \item Lexical scope : scope of the code
+    \item Object code : scope of the object
+  \end{itemize}
+  Closures can be seen as lambdas and are located inside methods
+
+  \item \textbf{Forwarding vs. delegation.}
+    \begin{itemize}
+      \item Delegation: Used with the keyword \texttt{extend:}. Can be explicit with \texttt{super^} or implicitely thanks to the method lookup. The operator \^ means  a delegation. Allows a late binding to \texttt{self}
+      \item Forwarding
+    \end{itemize}
+
+  \item \textbf{The uniform access principle (UAP), UAP and closures, firstclass methods.}
+  \begin{itemize}
+    \item Uniform access principle: Getters and Setters are implicit. Reading a variable invokes the method with the same name.
+    \item UAP and closures \todo{}
+    \item First-class methods: Methods are first-class citizen, which means they can be given as parameters as other methods. When selecting a field from an object, the resulting closure is an accessor for the field, i.e. a nullary (no argument) closure that upon application returns the field’s value.
+  \end{itemize}
+  \item \textbf{Classifying objects with type tags.}
+  Objects can be tagged with a type. First the type needs to be define ith \texttt{deftype}, then a object can be tagged with \texttt{taggedAs:}.
+
+  \item \textbf{The concept of traits, objects as traits.}
+  In objects, we can \texttt{import:} another object that is considered as a trait. A trait is a set of methods and attributes that will be inserted in the class that imports it. All the methods of the trait can be then used thanks to AT delegation support.
+
 \end{itemize}
+
+
+%--------------CHAPTER 3
+
 
 \chapter{Event-loop Programming}
 \begin{itemize}

@@ -33,11 +33,31 @@
     \item There is one administrator
 \end{enumerate}
   \item \textbf{Distribution vs concurrency, distribution vs. mobility}.
+
+  Distributed systems are concurrent programs with no resource shared. Parallel programs can be used with only one core while still having  concurrency problem.
+
+  Mobile as in mobile phone. Distributed as in using a system with devices on the same network sending each other messages.
   \item \textbf{Distribution transparency and its fundamental issues (again, you don’t need to know
   the list of problems by heart but to understand what each issue implies and why
   distribution transparency is said to be a myth).}
+  \begin{itemize}
+  \item Latency: There can be a delay between sending a message and the moment when the other device gets it.
+  \item Difference in Memory Access : Every method invocation implies sending information over the networ to retrieve the reference.
+  \item Partial Failure: An element of the sytem can fail
+  \item Concurrency: automatic parallelisation cannot be made automatic because of partial failure and latency
+  \end{itemize}
   \item \textbf{Language vs. middleware vs. reflective approach.}
+  \begin{itemize}
+  \item Language : concepts create a language, hiding the details
+  \item Middleware : library, makes use of another language's functionalities.
+  \item Reflective Approach : use of Aspects or reflection to combine both
+  \end{itemize}
+
   \item \textbf{Essential complexity vs. accidental complexity.}
+  \begin{itemize}
+  \item Essential complexity: complexity bound to the problem. Cannot be avoided
+  \item Accidental complexity: bound to the development of the solution. Can be avoided by the dev.
+  \end{itemize}
 \end{itemize}
 
 \chapter{Prototype-based Programming}

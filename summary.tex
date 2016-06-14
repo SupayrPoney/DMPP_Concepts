@@ -111,6 +111,62 @@
   \item Federation of mobile tuple spaces: understand the basic interaction model of tuple spaces in a mobile setting, and being able to explain the two variations (LIME \& TOTA), know what are the differences and similarities of the two variations.
   \item TOTAM: understand the goal for this hybrid approach, and key features, and how the model supports memory management in face of failures.
 \end{itemize}
+\section{Decoupling}
+
+\subsection{Space decoupling}
+
+The interacting parties do not need to know each other. The publishers publish events through an event service, and the subscribers get these events indirectly through the event service. Publishers and suscribers do not hold references to each other neither do they know how many of them are participating
+
+\subsection{Time decoupling}
+
+The interacting parties do not need to be actively participating in the same interaction at the same time. Events occuring when a subscriber is offline are delivered when he gets back online.
+
+\section{Tuple space}
+
+\subsection{Primitives}
+
+\paragraph{out} an actor outputs a tuple into the tuplespace 
+\paragraph{peek} an actor reads matching tuples 
+\paragraph{in} an actor grabs a tuple into itself
+
+\subsection{LIME (Linda In a Mobile Environment)}
+
+\emph{Put more intelligence in the tuplespace \textbf{operations} (in, out, peek, ...)}
+
+This is a federated tuple space model (make everyone agree). Hard to garantee consistency: atomicity only for \texttt{in} operations. Implies tradeoffs for decoupling in space and time.
+
+\subsection{TOTA (Tuples Over The Air)}
+
+\emph{Put more intellignes in the \textbf{tuples} themselves}
+
+A replication-based tuple space model. Fully decoupled in space and time, but atomicity cannot be garanteed.
+
+\begin{itemize}
+\item Tuples are injected into the network, and hop between spaces.
+\item Each tuple carries a propagation and a maintenance rule; ie \texttt{Tuple = (Content, propRule, maintRule)}
+\item \texttt{in/peek} only affects the local tuplespace and direct neighbors
+\end{itemize}
+
+\subsubsection{Supporting Tuples and safe state}
+
+\texttt{T1} in a space \texttt{S1} is a \textbf{supporting tuple} of \texttt{T2} in a space \texttt{S2} if:
+
+\begin{itemize}
+\item They share the same key
+\item There is 1 hop between \texttt{S1} and \texttt{S2}
+\item \texttt{T1.hop = n} and \texttt{T2.hop = n+1}
+\end{itemize}
+
+A tuple is in \textbf{safe state} if it has at least one supporting tuple, or it is a source tuple (hop = 0) A tuple \textbf{deletes itself} if it is no longer in a safe state
+
+\subsection{TOTAm (Tuples Over The Ambient)}
+
+Mixed approach of LIME and TOTA. Atomicity for \texttt{in} operations. \texttt{read} decoupled in time. Scoped propagation protocol. Reacts on incoming tuples.
+
+\subsubsection{Private and public tuples}
+
+The classical out operation acts on the local tuplespace. \texttt{inject} into the ambient. Each tuple carries a propagation protocol and a sign. To remove tuples, inject an \textbf{antituple}: a tuple with the same content and propagation rules, but opposite sign.
+
 
 \chapter{Peer-to-peer systems}
 \begin{itemize}

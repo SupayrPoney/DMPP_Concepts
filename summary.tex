@@ -160,6 +160,14 @@
   implement language constructs like futures and leased references.
 \end{itemize}
 
+\section{Metaprogramming}
+A program is about a certain domain (ex: bank accounts, Scrabble game, ...). A meta-program is a program about a program. A reflective program is a program about itself.
+
+\subsection{First class messages}
+First class messages are object that represent a message to be sent to an object. This message can be later applied using the \texttt{<+} operator, and contain the selector \textit{(which method)} and the arguments.
+
+\subsection{Quasiquoting}
+Represent the code as a first class object.
 
 \chapter{Coordination using Tuple Spaces}
 \begin{itemize}

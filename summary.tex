@@ -39,7 +39,7 @@
 
   Distributed systems are concurrent programs with no resource shared. Parallel programs can be used with only one core while still having  concurrency problem.
 
-  Mobile as in mobile phone. Distributed as in using a system with devices on the same network sending each other messages.
+  Mobile as in mobile phone. Can join and leave the network at any time. Distributed as in using a system with devices on the same network sending each other messages.
   \item \textbf{Distribution transparency and its fundamental issues (again, you don’t need to know
   the list of problems by heart but to understand what each issue implies and why
   distribution transparency is said to be a myth).}
@@ -81,6 +81,7 @@
     \item Cloning: makes a shallow copy with \texttt{clone:} or by creating a constructor method with \texttt{init} and use \texttt{Object.new()}.
   \end{itemize}
   \item \textbf{Scoping: lexical vs object scope,methods vs. closures.}
+
   \begin{itemize}
     \item Lexical scope : scope of the code
     \item Object code : scope of the object
@@ -88,21 +89,25 @@
   Closures can be seen as lambdas and are located inside methods
 
   \item \textbf{Forwarding vs. delegation.}
+
     \begin{itemize}
       \item Delegation: Used with the keyword \texttt{extend:}. Can be explicit with \texttt{super\^} or implicitely thanks to the method lookup. The operator \^ means  a delegation. Allows a late binding to \texttt{self}
       \item Forwarding
     \end{itemize}
 
   \item \textbf{The uniform access principle (UAP), UAP and closures, firstclass methods.}
+
   \begin{itemize}
     \item Uniform access principle: Getters and Setters are implicit. Reading a variable invokes the method with the same name.
     \item UAP and closures \todo{}
     \item First-class methods: Methods are first-class citizen, which means they can be given as parameters as other methods. When selecting a field from an object, the resulting closure is an accessor for the field, i.e. a nullary (no argument) closure that upon application returns the field’s value.
   \end{itemize}
   \item \textbf{Classifying objects with type tags.}
+
   Objects can be tagged with a type. First the type needs to be define ith \texttt{deftype}, then a object can be tagged with \texttt{taggedAs:}.
 
   \item \textbf{The concept of traits, objects as traits.}
+
   In objects, we can \texttt{import:} another object that is considered as a trait. A trait is a set of methods and attributes that will be inserted in the class that imports it. All the methods of the trait can be then used thanks to AT delegation support.
 
 \end{itemize}
@@ -113,16 +118,31 @@
 
 \chapter{Event-loop Programming}
 \begin{itemize}
-  \item Threads: understand the model, how to achieve inter and intraobject synchronization,  understand why and how deadlocks happen.
-  \item Actors: the basic principles of the model, and difference with the thread model.
-  \item Active Objects: understand the model, and its limitations for distribution.
-  \item Event Loops: understand the model, the concept of far references, and the three
-  concurrency control properties that the model can enforce.
-  \item Actors in AmbientTalk, asynchronous message sending and parameter passing rules.
-  \item Asynchronous message sending and return values:
-  \item The concept of customer objects, and its limitations.
-  \item Futures: the concept, blocking vs. nonblocking futures, future pipelining, how to
-  achieve conditional synchronization with futures.
+  \item\textbf{ Threads: understand the model, how to achieve inter and intraobject synchronization,  understand why and how deadlocks happen.}
+
+  Trivial
+  \item\textbf{ Actors: the basic principles of the model, and difference with the thread model.}
+
+  Actors are concurent entities that can send and receive messages. Those messages are synchronous and are stored in ailbox
+  \item\textbf{ Active Objects: understand the model, and its limitations for distribution.}
+
+  Has a passive object that is contained in active objects. The problem is that the passive object is ``private'' and can't be accessed from another active object.
+  \item\textbf{ Event Loops: understand the model, the concept of far references, and the three concurrency control properties that the model can enforce.}
+
+  As opposed to Active objects, passive objects can refer to each other via near reference (from the same object) and far reference (from a different one).
+  \begin{itemize}
+    \item Serial Execution Property: No race condition, events are processed one by one
+    \item Non-blocking Communication Property: No deadlocks, an event-loop never suspends 
+    \item Exclusive State Access Property: No race conditions, you will never have 2 threads trying to access the same resources
+  \end{itemize}
+  \item\textbf{ Actors in AmbientTalk, asynchronous message sending and parameter passing rules.}
+
+  Sending asynchronous messages can be done to either far or near references using the $\leftarrow$. They are sent to the mailbox of the concerned actor. 
+  \item\textbf{ Asynchronous message sending and return values:}
+
+  Async messages have no return value.
+  \item\textbf{ The concept of customer objects, and its limitations.}
+  \item\textbf{ Futures: the concept, blocking vs. nonblocking futures, future pipelining, how to achieve conditional synchronization with futures.}
 \end{itemize}
 
 \chapter{Event-based Distributed Programming}

@@ -72,7 +72,7 @@
   Classes weren't really suitable because they need to be sent everytime over the network (which can fail). Prototypes (with objects and no classes) make sharing explicit.
   \item \textbf{Symbiosis: understand the concept, how symbiosis works between AmbientTalk and Java.}
 
-  All java code can be accessed from AT but layers are different (Java is class-based while AT is prototype-based) so a wrapping is necessary.
+  All java code can be accessed from AT but layers are different (Java is class-based while AT is prototype-based) so a wrapping with an interface is necessary.
   Although AT doesn't have overloading, Java has it and it can be used. Casting must be used to avoid ambiguity.
   \item \textbf{Object creation exnihilo vs. cloning, cloning and instantiation, delegation and cloning.}
 
@@ -123,10 +123,10 @@
   Trivial
   \item\textbf{ Actors: the basic principles of the model, and difference with the thread model.}
 
-  Actors are concurent entities that can send and receive messages. Those messages are synchronous and are stored in ailbox
+  Actors are concurent entities that can send and receive messages. Those messages are synchronous and are stored in mailbox
   \item\textbf{ Active Objects: understand the model, and its limitations for distribution.}
 
-  Has a passive object that is contained in active objects. The problem is that the passive object is ``private'' and can't be accessed from another active object.
+  Has a passive object that is contained in active objects. The problem is that the passive object is ``private'' and can't be accessed from another active object. Other actors have no idea about the internal state of an actor.
   \item\textbf{ Event Loops: understand the model, the concept of far references, and the three concurrency control properties that the model can enforce.}
 
   As opposed to Active objects, passive objects can refer to each other via near reference (from the same object) and far reference (from a different one).
@@ -142,21 +142,69 @@
 
   Async messages have no return value.
   \item\textbf{ The concept of customer objects, and its limitations.}
+
+  Customers objects allow to receive an answer from sending a message to an actor. The problem is that it needs to be given as a parameter to the method.
   \item\textbf{ Futures: the concept, blocking vs. nonblocking futures, future pipelining, how to achieve conditional synchronization with futures.}
+
+  Futures are computation that take time to be computed on a different thread. They can be waited for (Blocking) or not (Non-blocking). Futures in AT can be \texttt{unresolved, resolved} or \texttt{ruined}. Listeners \texttt{when:<future> becomes:} can be applied around it. The closure with a parameter following it is computed when the future gets resolved to a value.
+
+  Futures can be pipelined when a computation needs to be done on the result of another future. Instead we can use \texttt{when: actor<-m1()<-m2() becomes:}
 \end{itemize}
+
+
+%--------------CHAPTER 4
+
+
 
 \chapter{Event-based Distributed Programming}
 \begin{itemize}
-  \item Understand the different design issues to provide a distributed object model, and its
-  relation to the different types of networks.
-  \item Know the discriminating properties of mobile networks, and understand the
-  requirements for a distributed object model for MANETs.
-  \item Far references and partial failures: how far references deal with intermittent failures.
-  \item Ways of obtaining a first far reference, service discovery vs. service lookup.
-  \item Distributed object scoping and isolates.
-  \item Far references and permanent failures, leased object references.
-  \item Understand the difference between pessimistic and optimistic distributed object model.
+  \item \textbf{Understand the different design issues to provide a distributed object model, and its relation to the different types of networks.}
+  \begin{itemize}
+    \item Discovery: How can objects get to know each other on a network?: You don't know by default who is on the network, they have to discover each other first.
+    \item Communication: What is the communication model between two distributed objects?: They need to agree with each other on how to communicate
+    \item Synchronization: How do distributed objects coordinate their actions?: synch/asynch?
+    \item Failure Handling: How do distributed objects deal with (presumably)failed peers?: network can be unreliable
+  \end{itemize}
+  \item \textbf{Know the discriminating properties of mobile networks, and understand the requirements for a distributed object model for MANETs.}
+
+  Mobile Ad-hoc networks have no infrastructure like servers, have volatile connection (devices can join and leave at any time). Failures can happen at any time.
+
+  MANETs need:
+  \begin{itemize}
+    \item Decentralised Service Discovery Protocol: There is no infrastruture, they need to discover each other by themselves. Actor model needs however to know the methods of a named actor.
+    \item Decoupling in Time: They don't need to be connected at the same time since they can join and leave at any time. 
+    \item Decoupling in Space: Devices do not need to know each other beforehand, they can start communicating even though 
+    \item Connection-independent Failure Model: 
+  \end{itemize}
+  \item \textbf{Far references and partial failures: how far references deal with intermittent failures.}
+
+  When a failure occurs, a far reference stores all the messages sent. This buffer is emptied when the object reconnects. This allows the Time Decoupling.
+  \item \textbf{Ways of obtaining a first far reference, service discovery vs. service lookup.}
+
+  A far reference can be otained by receiving it from another object or by discovering the object.
+  \begin{itemize}
+    \item Service discovery: Devices discover each other in a spontaneous way. 
+    \item Service lookup: Can be seen as a DNS, an object is dedicated to storing all the far references  -> not adapted to MANETS since they require a kind of central server.
+  \end{itemize}
+  \item \textbf{Distributed object scoping and isolates.}
+
+  Object are always passed by far reference. Isolates however are objects with no lexical scopes. They are passed by copy.
+  \item \textbf{Far references and permanent failures, leased object references.}
+
+  When we want to delete far references in the case of a permanent failure, we can lease them. That means associating a timer to the far reference. When the time is elapsed, the far reference can be garbage collected.
+  \item \textbf{Understand the difference between pessimistic and optimistic distributed object model.}
+
+  \begin{itemize}
+    \item Pessimistic: We're aware that the object can disappear
+    \item Optimistic: We consider that the object can last forever.
+  \end{itemize}
 \end{itemize}
+
+
+
+%--------------CHAPTER 5
+
+
 
 
 \chapter{Meta-level Engineering}
